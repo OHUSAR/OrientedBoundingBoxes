@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="BasicDefs.h" />
+    <ClInclude Include="SimplePolygonConvexHull.h">
+      <Filter>ConvexHull</Filter>
+    </ClInclude>
+    <ClInclude Include="AxisAlignedBoundingBox.h">
+      <Filter>BoundingBoxes</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectOrientedBoundingBox.h">
+      <Filter>BoundingBoxes</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="BoundingBoxes.cpp" />
+    <ClCompile Include="SimplePolygonConvexHull.cpp">
+      <Filter>ConvexHull</Filter>
+    </ClCompile>
+    <ClCompile Include="AxisAlignedBoundingBox.cpp">
+      <Filter>BoundingBoxes</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectOrientedBoundingBox.cpp">
+      <Filter>BoundingBoxes</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="ConvexHull">
+      <UniqueIdentifier>{e491a1a4-b30d-456d-bb5f-e13b3a7d9e37}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BoundingBoxes">
+      <UniqueIdentifier>{53673ad5-e526-4054-b468-14efa69aa00b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
