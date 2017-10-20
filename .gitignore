@@ -1,0 +1,4 @@
+﻿Prototype/lib/Builds
+Prototype/lib/VisualStudio/ipch
+Prototype/lib/VisualStudio/*.db
+Prototype/lib/VisualStudio/.vs
