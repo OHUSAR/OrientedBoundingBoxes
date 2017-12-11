@@ -1,0 +1,23 @@
+function [ objPlot ] = PlotObject( objFile, color, style, width )
+%PLOTOBJECT Summary of this function goes here
+%   Detailed explanation goes here
+
+objVertices = load( objFile );
+objVertices(end+1, : ) = objVertices(1,:);
+
+hold on
+
+objPlot = plot( objVertices(:,1), objVertices(:,2), ...
+      'Color', color, ...
+      'LineStyle', style, ...
+      'LineWidth', width );
+
+for i = 1:size(objVertices,1)-1
+   plot( objVertices(i,1), objVertices(i,2), ...
+         'Marker', 'o',...
+         'MarkerSize', 10, ...
+         'MarkerFaceColor', color, ...
+         'MarkerEdgeColor', color ); 
+end
+
+hold off
