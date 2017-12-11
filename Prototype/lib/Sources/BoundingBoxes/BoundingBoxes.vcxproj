@@ -146,6 +146,7 @@
   <ItemGroup>
     <ClInclude Include="AxisAlignedBoundingBox.h" />
     <ClInclude Include="BasicDefs.h" />
+    <ClInclude Include="CollisionDetector.h" />
     <ClInclude Include="ObjectOrientedBoundingBox.h" />
     <ClInclude Include="SimplePolygonConvexHull.h" />
     <ClInclude Include="stdafx.h" />
@@ -153,6 +154,7 @@
   <ItemGroup>
     <ClCompile Include="AxisAlignedBoundingBox.cpp" />
     <ClCompile Include="BoundingBoxes.cpp" />
+    <ClCompile Include="CollisionDetector.cpp" />
     <ClCompile Include="ObjectOrientedBoundingBox.cpp" />
     <ClCompile Include="SimplePolygonConvexHull.cpp" />
     <ClCompile Include="stdafx.cpp">

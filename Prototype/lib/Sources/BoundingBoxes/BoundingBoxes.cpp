@@ -9,6 +9,7 @@
 #include "SimplePolygonConvexHull.h"
 #include "AxisAlignedBoundingBox.h"
 #include "ObjectOrientedBoundingBox.h"
+#include "CollisionDetector.h"
 
 using namespace BoundingBoxes;
 using namespace BoundingBoxes::ConvexHull;
@@ -73,11 +74,11 @@ int main()
 	Buffer< Vector2<> > convexHull( convexHullLength );
 	
 	SimplePolygonConvexHull::Get( ptsCount, pts, convexHullLength, convexHull.Ptr() );
-	for ( uint i = 0; i < convexHullLength / 2; i++ ) {
-		Vector2<> tmp = convexHull[i];
-		convexHull[i] = convexHull[convexHullLength - i - 1];
-		convexHull[convexHullLength - i - 1] = tmp;
-	}
+	// for ( uint i = 0; i < convexHullLength / 2; i++ ) {
+	// 	Vector2<> tmp = convexHull[i];
+	// 	convexHull[i] = convexHull[convexHullLength - i - 1];
+	// 	convexHull[convexHullLength - i - 1] = tmp;
+	// }
 
 	Timer timer;
 	TimeGroup& tg = timer.GetTimeGroup( "Test" );
@@ -92,9 +93,9 @@ int main()
 	ObjectOrientedBoundingBox::Get( convexHullLength, convexHull.Ptr(), oobb2 );
 	tg.SaveElapsed();
 
-	printf( "Convex hull length: %u\nConvex hull: [", convexHullLength );
+	printf( "Convex hull length: %u\nConvex hull: [\n", convexHullLength );
 	for ( uint i = 0; i < convexHullLength; i++ ) {
-		printf( " %f, %f, ", convexHull[i][0], convexHull[i][1] );
+		printf( " %f, %f \n", convexHull[i][0], convexHull[i][1] );
 	}
 	printf( "]\n" );
 
@@ -104,6 +105,46 @@ int main()
 
 
 	printf( "Times: AABB: %fms, OOBB: %fms\n", tg.durations[0], tg.durations[1] );
+
+	
+
+	Vector2<> ptsA[] = {
+		Vector2<>( { 1,1 } ),
+		Vector2<>( { 2,2 } ),
+		Vector2<>( { 3,1 } ),
+		Vector2<>( { 4,2.5f } ),
+	};
+	Vector2<> ptsB[] = {
+		Vector2<>( { -1, -1 } ),
+		Vector2<>( { -2, 2 } ),
+		Vector2<>( { -3, -1 } ),
+		Vector2<>( { -5, 3 } ),
+
+		// Vector2<>( { 5, 2 } ),
+		// Vector2<>( { 0, 1 } ),
+		// Vector2<>( { -1, 2 } ),
+		// Vector2<>( { 3, 3 } ),
+	};
+
+	Vector2<> edgA[4];
+	Vector2<> edgB[4];
+
+	Collisions::CollisionObject objA;
+	Collisions::CollisionObject objB;
+	
+	objA.vertexCount = 4;
+	objB.vertexCount = 4;
+	objA.pVertices = ptsA;
+	objB.pVertices = ptsB;
+	objA.pEdgeNormals = edgA;
+	objB.pEdgeNormals = edgB;
+
+	Collisions::CollisionDetector detector;
+	detector.GetEdgeNormals( objA );
+	detector.GetEdgeNormals( objB );
+	bool collision = detector.DetectCollision( objA, objB );
+
+	std::cout << "Collision detected: " << collision << std::endl;
 
 	int a = 0;
 	std::cin >> a;

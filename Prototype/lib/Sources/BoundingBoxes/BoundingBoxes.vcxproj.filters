@@ -12,6 +12,9 @@
     <ClInclude Include="ObjectOrientedBoundingBox.h">
       <Filter>BoundingBoxes</Filter>
     </ClInclude>
+    <ClInclude Include="CollisionDetector.h">
+      <Filter>CollisionDetection</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
@@ -25,6 +28,9 @@
     <ClCompile Include="ObjectOrientedBoundingBox.cpp">
       <Filter>BoundingBoxes</Filter>
     </ClCompile>
+    <ClCompile Include="CollisionDetector.cpp">
+      <Filter>CollisionDetection</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ConvexHull">
@@ -32,6 +38,9 @@
     </Filter>
     <Filter Include="BoundingBoxes">
       <UniqueIdentifier>{53673ad5-e526-4054-b468-14efa69aa00b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CollisionDetection">
+      <UniqueIdentifier>{84e7744b-ceae-4fb2-b9f4-c725816fc796}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
