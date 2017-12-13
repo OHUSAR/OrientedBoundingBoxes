@@ -2,3 +2,4 @@
 Prototype/lib/VisualStudio/ipch
 Prototype/lib/VisualStudio/*.db
 Prototype/lib/VisualStudio/.vs
+*.pyc
