@@ -1,4 +1,4 @@
-from Core.Utils.AlgebraUtils import *
+from Core.Utils.LinearAlgebra import *
 
 def GetOrientedEdges( vertices ):
     edges = [None]*len(vertices)
