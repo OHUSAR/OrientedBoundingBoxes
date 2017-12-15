@@ -1,3 +1,4 @@
+from Core.BasicDefs import *
 from Core.Geometry.Intersections import IntersectLineSegment
 
 class Axis:
@@ -6,7 +7,12 @@ class Axis:
         self.point = point
 
 def _GetSide( vertex, axis ):
-    return -1 # TODO
+    pt = axis.point
+    pt2 = pt + axis.dir
+    
+    det = ( ( pt2[0] - pt[0] ) * ( vertex[1] - pt[1] ) -
+            ( pt2[1] - pt[1] ) * ( vertex[0] - pt[0] ) )
+    return np.sign( det )
 
 def SliceObject( vertices, axis ):
     verts1 = []
@@ -14,7 +20,7 @@ def SliceObject( vertices, axis ):
 
     for i in range( len(vertices ) ):
         vertex = vertices[i]
-        side = _GetSide( vertex )
+        side = _GetSide( vertex, axis )
 
         if side == -1:
             verts1.append( vertex )
@@ -25,7 +31,7 @@ def SliceObject( vertices, axis ):
             verts2.append( vertex )
 
         intersectVertex = IntersectLineSegment( axis.dir, axis.point, vertex, vertices[( i+1 ) % len(vertices)] )
-        if intesectVertex is not None:
+        if intersectVertex is not None:
             verts1.append( intersectVertex )
             verts2.append( intersectVertex )
         

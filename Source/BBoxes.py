@@ -3,6 +3,14 @@ from Core.Geometry.Utils import *
 from Core.ConvexHull.ConvexHull import *
 from Core.BoundingBox.OrientedBoundingBox import *
 from Core.Collisions.CollisionDetector import *
+from Core.Geometry.Slicing import *
+
+def printVertices( v, label = None ):
+    if label is not None:
+        print( label )
+    for i in v:
+        print( '{}, {}'.format( i[0], i[1] ) )
+    
 
 vertices = [
     vector( [  65.9091033935547,	-37.7272720336914	] ),
@@ -74,3 +82,18 @@ colObjB = CollisionObject( colVB, normalsB )
 
 print( ObjectsCollide( colObjA, colObjB ) )
 
+##sliceObj = [
+##    vector( [0, 0] ),
+##    vector( [5, 0] ),
+##    vector( [5, 5] ),
+##    vector( [0, 5] )
+##    ]
+##
+##ax = Axis( vector([0,1]), vector([2,0]) )
+##sliceA, sliceB = SliceObject( sliceObj, ax )
+
+ax = Axis( oobb[3] - oobb[0], (oobb[0] + oobb[1]) / 2 )
+sliceA, sliceB = SliceObject( vertices, ax )
+
+printVertices( sliceA, 'SliceA' )
+printVertices( sliceB, 'SliceB' )

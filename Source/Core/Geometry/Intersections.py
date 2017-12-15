@@ -25,10 +25,10 @@ def IntersectLineSegment( lineDir, linePt, segStart, segEnd ):
 
     intersectPt = IntersectLines( lineDir, linePt, segDir, segStart )
     if intersectPt is not None:
-        if ( ( intersectPt[0] >= segStart[0] ) and
-             ( intersectPt[0] <= segEnd[0] ) and
-             ( intersectPt[1] >= segStart[1] ) and
-             ( intersectPt[1] <= segEnd[1] ) ):
+        if ( ( intersectPt[0] >= min( segStart[0], segEnd[0] ) ) and
+             ( intersectPt[0] <= max( segStart[0], segEnd[0] ) ) and
+             ( intersectPt[1] >= min( segStart[1], segEnd[1] ) ) and
+             ( intersectPt[1] <= max( segStart[1], segEnd[1] ) ) ):
                 return intersectPt
     
     return None
