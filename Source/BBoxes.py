@@ -1,5 +1,5 @@
 from Core.BasicDefs import *
-from Core.Utils.PolygonUtils import *
+from Core.Geometry.Utils import *
 from Core.ConvexHull.ConvexHull import *
 from Core.BoundingBox.OrientedBoundingBox import *
 from Core.Collisions.CollisionDetector import *
