@@ -69,7 +69,7 @@ def GetOrientedBBox( vertices, edges ):
 
         box, area = _GetBox( caliperDirs, edgeIndices, vertices )
 
-##        with open( 'Boxes/Box{}.txt'.format(i), 'w', encoding='utf-8' ) as f:            
+##        with open( '../Output/Boxes/Box{}.txt'.format(i), 'w', encoding='utf-8' ) as f:            
 ##            for j in box:
 ##                print( '{}, {}'.format( j[0], j[1] ), file = f)
 ##        print( edgeIndices )

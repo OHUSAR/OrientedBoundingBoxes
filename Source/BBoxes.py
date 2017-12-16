@@ -5,11 +5,13 @@ from Core.BoundingBox.OrientedBoundingBox import *
 from Core.Collisions.CollisionDetector import *
 from Core.Geometry.Slicing import *
 
-def printVertices( v, label = None ):
-    if label is not None:
-        print( label )
+import sys
+
+def printVertices( v, stream = sys.stdout, title = None ):
+    if title is not None:
+        print( title, file = stream )
     for i in v:
-        print( '{}, {}'.format( i[0], i[1] ) )
+        print( '{}, {}'.format( i[0], i[1] ), file = stream )
     
 
 vertices = [
@@ -42,17 +44,9 @@ edges = GetOrientedEdges( ch )
 
 oobb = GetOrientedBBox( ch, edges )
 
-for i in vertices:
-    print( '{}, {}'.format( i[0], i[1] ) )
-
-print( 'ConvexHull')
-for i in ch:
-    print( '{}, {}'.format( i[0], i[1] ) )
-
-print( 'OOBB')
-for i in oobb:
-    print( '{}, {}'.format( i[0], i[1] ) )
-
+printVertices( vertices, title = 'Original' )
+printVertices( ch, title = 'ConvexHull' )
+printVertices( oobb, title = 'OOBB' )
 
 colVA = [
         vector( [ 1,1 ] ),
@@ -93,7 +87,24 @@ print( ObjectsCollide( colObjA, colObjB ) )
 ##sliceA, sliceB = SliceObject( sliceObj, ax )
 
 ax = Axis( oobb[3] - oobb[0], (oobb[0] + oobb[1]) / 2 )
+ax2 = Axis( oobb[1] - oobb[0], ( oobb[0] + oobb[3] ) / 2 )
+
 sliceA, sliceB = SliceObject( vertices, ax )
 
-printVertices( sliceA, 'SliceA' )
-printVertices( sliceB, 'SliceB' )
+slice1, slice2 = SliceObject( sliceA, ax2 )
+slice3, slice4 = SliceObject( sliceB, ax2 )
+
+printVertices( sliceA, title = 'SliceA' )
+printVertices( sliceB, title = 'SliceB' )
+
+slices = [slice1, slice2, slice3, slice4]
+for ix, s in enumerate( slices ):
+    with open( '../Output/slice{}.txt'.format(ix), 'w', encoding='utf-8' ) as stream:
+        printVertices( s, stream )
+        
+    ch = GetConvexHull( s )
+    
+    with open( '../Output/ch{}.txt'.format(ix), 'w', encoding='utf-8' ) as stream:
+        printVertices( ch, stream )
+
+
