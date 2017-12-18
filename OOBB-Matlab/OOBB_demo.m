@@ -15,14 +15,19 @@ objPlot = PlotObject( objVertices, 'b', '-', 1 );
 BOXES_DIR = [ OBJ_DIR filesep 'Boxes' ];
 boxes = dir( BOXES_DIR );
 
+boxColor = jet( length(boxes) - 2 );
+colorI = 1;
+
 for boxFile = boxes'
     if ( boxFile.name(1) ~= '.' )
         candVertices = LoadVertices( boxFile.name );
-        candidate = PlotObject( candVertices, 'g', '--', 1 );
+        candidate = PlotObject( candVertices, boxColor(colorI,:), '--', 1 );
         
         legend( [ objPlot(1), chPlot(1), candidate(1) ],...
         'Original Object', 'Convex Hull', 'OOBB candidate' );
-        
+         
+        colorI = colorI + 1;
+    
         pause
         %set( candidate, 'Visible', 'off' );
     end
