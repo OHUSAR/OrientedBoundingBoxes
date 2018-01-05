@@ -1,5 +1,6 @@
 from collections import deque
 
+
 def _IsLeftTurn( a, b, c ):
     return ( ( ( b[0] - a[0] ) * ( c[1] - a[1] ) ) -
              ( ( c[0] - a[0] ) * ( b[1] - a[1] ) ) 
@@ -9,7 +10,7 @@ def GetConvexHull( vertices ):
     if len(vertices) < 3:
         raise ValueError # TODO
 
-    convexHull = deque();
+    convexHull = deque()
 
     if _IsLeftTurn( vertices[0], vertices[1], vertices[2] ):
         convexHull.append( vertices[0] )
@@ -34,4 +35,3 @@ def GetConvexHull( vertices ):
             convexHull.append( currentVertex )
             
     return list( convexHull )[:-1]
-

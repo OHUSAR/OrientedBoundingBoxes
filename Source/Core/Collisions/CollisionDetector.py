@@ -1,5 +1,6 @@
 from Core.BasicDefs import *
 
+
 class CollisionObject:
     def __init__( self, vertices, edgeNormals ):
         self.vertices = vertices
@@ -13,7 +14,7 @@ class _Projection:
         return not ( ( other.minPt >= self.maxPt ) or ( other.maxPt <= self.minPt ) )
 
 def _GetProjection( obj, axis ):
-    minPt = np.dot( axis, obj.vertices[0] );
+    minPt = np.dot( axis, obj.vertices[0] )
     maxPt = minPt
 
     for i in range( 1, len( obj.vertices ) ):
@@ -39,5 +40,3 @@ def ObjectsCollide( objA, objB ):
              return False
 
     return True
-    
-        

@@ -1,5 +1,6 @@
 from Core.BasicDefs import *
 
+
 def IntersectLines( dirA, ptA, dirB, ptB ):
     ptA2 = ptA + dirA
     ptB2 = ptB + dirB
@@ -10,7 +11,7 @@ def IntersectLines( dirA, ptA, dirB, ptB ):
     dyB = ptB[1] - ptB2[1]
 
     det = ( dxA * dyB ) - ( dyA * dxB )
-    if ( det != 0 ):
+    if det != 0:
             fctA = ptA[0] * ptA2[1] - ptA[1] * ptA2[0]
             fctB = ptB[0] * ptB2[1] - ptB[1] * ptB2[0]
 
@@ -21,6 +22,9 @@ def IntersectLines( dirA, ptA, dirB, ptB ):
     return None
 
 def IntersectLineSegment( lineDir, linePt, segStart, segEnd ):
+    segEnd = np.array(segEnd) # TODO
+    segStart = np.array(segStart) # TODO
+
     segDir = segEnd - segStart
 
     intersectPt = IntersectLines( lineDir, linePt, segDir, segStart )

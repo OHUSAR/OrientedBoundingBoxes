@@ -2,6 +2,7 @@ from Core.BasicDefs import *
 from Core.Utils.LinearAlgebra import *
 from Core.Geometry.Intersections import IntersectLines
 
+
 def _GetExtremePointIndices( vertices ):
     maxPt = [ float('-inf'), float('-inf') ]
     minPt = [ float('inf'), float('inf') ]
