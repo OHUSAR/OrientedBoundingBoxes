@@ -246,7 +246,7 @@ class Application(Frame):
         else:
             self.canvas.itemconfigure(canvas_id, fill=OOBB_COLOR, width=2)
 
-
-root = Tk()
-app = Application(master=root)
-app.mainloop()
+if __name__ == '__main__':
+    root = Tk()
+    app = Application(master=root)
+    app.mainloop()
