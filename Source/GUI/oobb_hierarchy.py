@@ -7,7 +7,7 @@ from Core.Geometry.Utils import GetOrientedEdges, vector
 
 
 class OOBBHierarchy:
-    def __init__(self, vertices, depth=3):
+    def __init__(self, vertices, depth=2):
         self.root = None
         self.vertices = vertices
         self.depth = depth

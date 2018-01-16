@@ -15,24 +15,23 @@ OOBB_COLOR = 'LightYellow4'
 class Canvas(TkCanvas):
     def __init__(self, master=None, cnf={}, **kw):
         super().__init__(master, cnf, **kw, width=1200, height=800, bg='white')
-        self.pack(fill='both', expand=True)
+        self.pack(fill='both', expand=True, side='left')
 
 
 class Application(Frame):
 
     def __init__(self, master=None, **kwargs):
         super().__init__(master, **kwargs)
-        self.canvas = Canvas()
-        self.polygons = PolygonStorage()
+        self.canvas = Canvas(master=self)
 
-        self.drawing_state = DrawingState.FIRST
-        self.intersects = False
-        self.active_line = None
-        self.lines_ids = []
-        self.polygon_coords = []
-        self.all_ids = set()
-        self.colliding_ids = set()
-        self._drag_data = {"x": 0, "y": 0, "item": None}
+        self.frame = Frame(master=self, height=800, width=20)
+        self.frame.pack(side='right')
+        self.clear = Button(master=self.frame, text="Clear", command=self.clear, width=20)
+        self.hide = Button(master=self.frame, text="Show/Hide OOBB", command=self.hide, width=20)
+        self.clear.pack(side='top')
+        self.hide.pack(side='top')
+
+        self.initialize()
 
         self.bind_events()
         self.pack()
@@ -44,6 +43,29 @@ class Application(Frame):
         self.canvas.tag_bind("token", "<ButtonPress-1>", self.on_token_press)
         self.canvas.tag_bind("token", "<ButtonRelease-1>", self.on_token_release)
         self.canvas.tag_bind("token", "<B1-Motion>", self.on_token_motion)
+
+    def initialize(self):
+        self.polygons = PolygonStorage()
+        self.drawing_state = DrawingState.FIRST
+        self.intersects = False
+        self.active_line = None
+        self.lines_ids = []
+        self.polygon_coords = []
+        self.all_ids = set()
+        self.colliding_ids = set()
+        self._drag_data = {"x": 0, "y": 0, "item": None}
+        self.hidden = False
+
+    def clear(self):
+        self.canvas.delete("all")
+        self.initialize()
+
+    def hide(self):
+        self.hidden = not self.hidden
+        if self.hidden:
+            self.canvas.itemconfigure("oobb", state='hidden')
+        else:
+            self.canvas.itemconfigure("oobb", state='normal')
 
     def draw_line(self, event):
         if self.drawing_state == DrawingState.DONE or self.intersects:
@@ -90,7 +112,7 @@ class Application(Frame):
 
         polygon.canvas_id = polygon_id
         for oobb_level in OOBBs:
-            line_id = self.canvas.create_line(oobb_level.OOBB(), fill=OOBB_COLOR, width=2)
+            line_id = self.canvas.create_line(oobb_level.OOBB(), fill=OOBB_COLOR, width=2, tags="oobb")
             oobb_level.canvas_id = line_id
             polygon.oobb_canvas_ids[line_id] = oobb_level
 
@@ -225,7 +247,6 @@ class Application(Frame):
             self.canvas.itemconfigure(canvas_id, fill=OOBB_COLOR, width=2)
 
 
-if __name__ == '__main__':
-    root = Tk()
-    app = Application(master=root)
-    app.mainloop()
+root = Tk()
+app = Application(master=root)
+app.mainloop()
