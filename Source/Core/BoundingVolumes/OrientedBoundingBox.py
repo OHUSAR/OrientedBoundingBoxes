@@ -2,6 +2,8 @@ from Core.BasicDefs import *
 from Core.Utils.LinearAlgebra import *
 from Core.Geometry.Intersections import IntersectLines
 
+import math
+
 
 def _GetExtremePointIndices( vertices ):
     maxPt = [ float('-inf'), float('-inf') ]
@@ -23,7 +25,7 @@ def _GetExtremePointIndices( vertices ):
         if vertex[INDEX.Y] > maxPt[INDEX.Y]:
             maxPt[INDEX.Y] = vertex[INDEX.Y]
             indices[INDEX.TOP] = ix
-            
+
     return indices
 
 def _GetBox( caliperDirs, edgeIndices, vertices ):
@@ -44,7 +46,7 @@ def _GetBox( caliperDirs, edgeIndices, vertices ):
     box[INDEX.TOP] = IntersectLines( caliperDirs[INDEX.LEFT],
                                      vertices[edgeIndices[INDEX.RIGHT]],
                                      caliperDirs[INDEX.BOTTOM],
-                                     vertices[edgeIndices[INDEX.TOP]] )
+                                     vertices[edgeIndices[INDEX.TOP]] )   
 
     area = ( Distance( box[INDEX.LEFT], box[INDEX.BOTTOM] ) *
              Distance( box[INDEX.LEFT], box[INDEX.TOP] ) )
@@ -58,9 +60,10 @@ def GetOrientedBBox( vertices, edges ):
     edgeIndices = _GetExtremePointIndices( vertices )
     caliperDirs = [ vector( [0, -1] ), vector( [1, 0] ) ]
 
-    for i in range( len( vertices ) ):        
+    for i in range( len( vertices ) ):
         angles = [ np.dot( caliperDirs[ix % 2], edges[ edgeIndices[ ix ] ] ) ** 2 for ix in range(4) ]
-        
+
+        print(angles)
         minAngleIx = angles.index( max( angles ) )
         minCaliperIx = minAngleIx % 2
 
@@ -78,5 +81,5 @@ def GetOrientedBBox( vertices, edges ):
         if area < minArea:
             minArea = area
             minBox = box
-    
+
     return minBox
