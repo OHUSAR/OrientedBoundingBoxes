@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter.ttk import *
 from tkinter import Canvas as TkCanvas
 
+from Core.BasicDefs import vector
 from Core.SimulationObjects import SimulationPolygon
 
 from GUI.StaticData.Strings import Strings
