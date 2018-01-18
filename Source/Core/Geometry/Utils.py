@@ -1,5 +1,6 @@
 from Core.Utils.LinearAlgebra import *
 
+
 def GetOrientedEdges( vertices ):
     edges = [None]*len(vertices)
     for i in range( len(vertices) - 1 ):
@@ -13,4 +14,3 @@ def GetEdgeNormals( edges ):
     for ix, edge in enumerate(edges):
         normals[ix] = GetOrthogonal( edge )
     return normals
-        

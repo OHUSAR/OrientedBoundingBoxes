@@ -1,5 +1,6 @@
 from Core.BasicDefs import *
 
+
 def GetOrthogonal( vector2d ):
     return vector( [ vector2d[1], -vector2d[0] ] )
 

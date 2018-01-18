@@ -1,6 +1,7 @@
 from Core.BasicDefs import *
 from Core.Geometry.Intersections import IntersectLineSegment
 
+
 class Axis:
     def __init__( self, dirVector, point ):
         self.dir = dirVector
