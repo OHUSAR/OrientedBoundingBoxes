@@ -34,7 +34,7 @@ class PolygonComposer:
     def FinalizePolygon( self ):
         if self.activeSegment and len(self.vertices) > 2:
             lastSegment = [ *self.vertices[-1], *self.vertices[0] ]
-            if self.ValidateSegment( lastSegment ):
+            if self.ValidateSegment( lastSegment, True ):
                 vertices = self.vertices
                 
                 self.Cleanup()
@@ -57,8 +57,9 @@ class PolygonComposer:
     def CreateLine( self, startPos, endPos ):
         return self.canvas.create_line( startPos, endPos, fill='black' )
 
-    def ValidateSegment( self, segmentCoords ):
-        for i in range(1, len(self.vertices) ):
+    def ValidateSegment( self, segmentCoords, skipFirst = False ):
+        startVert = 1 + ( 1 if skipFirst else 0 )
+        for i in range( startVert, len(self.vertices) - 1 ):
             testSegment = [ *self.vertices[i-1], *self.vertices[i] ]
             if IntersectSegments( segmentCoords, testSegment ):
                 return False

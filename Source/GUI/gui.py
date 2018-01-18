@@ -97,11 +97,12 @@ class Application(Frame):
 
     def onDrawEnd( self, event ):
         vertices = self.composer.FinalizePolygon()
-        self.add_polygon( vertices )
+        if vertices is not None:
+            self.add_polygon( vertices )
 
-        if self.composer.GetState() == DrawingState.DONE:
-            self.UnbindDrawEvents()
-            self.BindMoveEvents()
+            if self.composer.GetState() == DrawingState.DONE:
+                self.UnbindDrawEvents()
+                self.BindMoveEvents()
 
     def add_polygon(self, vertices):
         print( 'vertex count: {}'.format( len(vertices ) ) )
