@@ -7,6 +7,9 @@ class QuadTree:
     def __len__( self ):
         return self.capacity
 
+    def __repr__( self ):
+        return self.nodes.__repr__()
+
     def __getitem__(self, ix):
         return self.nodes[ix]
 

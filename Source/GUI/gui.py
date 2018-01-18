@@ -5,6 +5,7 @@ from tkinter import Scale as TkScale
 
 from Core.BasicDefs import vector
 from Core.SimulationObjects import SimulationPolygon
+from Core.Utils.Logger import LOGGER
 
 from GUI.StaticData.Strings import Strings
 from GUI.Drawing.drawing_state import DrawingState
@@ -88,8 +89,13 @@ class Application(Frame):
             self.printBtn = Button( master=
                                     self.debugFrame, text="Print Objects", command = self.DEBUG_PRINT )
 
+            self.bvhPrintBtn = Button( master = self.debugFrame, text ="Print BVH", command = self.DEBUG_BVH_PRINT )
+            self.logFlushBtn = Button( master = self.debugFrame, text = "Flush Log", command = LOGGER.flush )
+    
             self.debugFrame.pack( side = 'bottom' )
             self.printBtn.pack( side = 'top' )
+            self.bvhPrintBtn.pack( side = 'top' )
+            self.logFlushBtn.pack( side = 'top' )
 
     def initialize(self):
         self.polygons = PolygonStorage()
@@ -191,10 +197,19 @@ class Application(Frame):
 
     ## DEBUG STUFF
     def DEBUG_PRINT( self ):
+        global _DEBUG
+        print( _DEBUG )
+        
         for objI in range( len(self.polygons) ):
             print( "Object{}".format( objI ) )
             for v in self.polygons.get( objI, True ).polygon.originalPolygon.GetVertices():
                 print( "{}, {}".format( v[0], v[1] ) )
+
+    def DEBUG_BVH_PRINT( self ):
+        print( '------- BVH hierarchy print -------' )
+        for objI in range( len(self.polygons) ):
+            print( "Object {}".format( objI ) )
+            print( [ False if n is None else True for n in self.polygons.get(objI, True).polygon.bvh ] )
 
 if __name__ == '__main__':
     root = Tk()

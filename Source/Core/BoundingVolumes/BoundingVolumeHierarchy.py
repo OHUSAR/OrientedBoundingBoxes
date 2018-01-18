@@ -1,10 +1,15 @@
 from Core.Geometry.Polygon import Polygon
 import Core.BoundingVolumes.BVHFactory as BVHFactory
+from Core.Utils.Logger import LOGGER
+
 
 class BoundingVolumeHierarchy:
 
     def __init__( self, vertices, depth, subType = 'oobb' ):
         self.boundingVolumes = self.InitializeFrom( vertices, depth, subType )
+
+        LOGGER.log( str( [ False if n is None else True for n in self.boundingVolumes ] ) )
+        
         self.depth = depth
 
     def InitializeFrom( self, vertices, depth, subType ):

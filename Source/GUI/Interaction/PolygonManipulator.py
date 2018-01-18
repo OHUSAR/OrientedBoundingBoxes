@@ -1,4 +1,5 @@
 from Core.Utils.QuadTree import QuadTree
+from Core.Utils.Logger import LOGGER
 
 class PolygonManipulator:
     def __init__(self, polygonStorage, canvas ):
@@ -46,6 +47,11 @@ class PolygonManipulator:
                 self.MergeTrees( collisionTrees, (obj1Ix, colTree1), (obj2Ix, colTree2) )
 
         self.ColorCollisions( collisionTrees, hideNonColliding )
+
+        LOGGER.log( '------- Collision report -------' )
+        LOGGER.log( "Tree count: {}".format( len(collisionTrees) ) )
+        LOGGER.log( '\n'.join( [ "Object{}: {}".format( i, str(t) ) for i, t in enumerate(collisionTrees) ] ) )
+        LOGGER.log( '--------------------------------' )
 
     def InitCollisionTrees( self ):
         return [ QuadTree( self.polygons.get(i, True).polygon.GetBVH().GetDepth() ) for i in range( len(self.polygons) ) ]
