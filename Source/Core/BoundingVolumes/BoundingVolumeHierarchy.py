@@ -8,6 +8,7 @@ class BoundingVolumeHierarchy:
     def __init__( self, vertices, depth, subType = 'oobb' ):
         self.boundingVolumes = self.InitializeFrom( vertices, depth, subType )
 
+        LOGGER.log( "---------- Bouding Volume Creation ----------" )
         LOGGER.log( str( [ False if n is None else True for n in self.boundingVolumes ] ) )
         
         self.depth = depth

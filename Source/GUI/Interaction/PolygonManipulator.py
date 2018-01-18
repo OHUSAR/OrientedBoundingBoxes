@@ -51,7 +51,6 @@ class PolygonManipulator:
         LOGGER.log( '------- Collision report -------' )
         LOGGER.log( "Tree count: {}".format( len(collisionTrees) ) )
         LOGGER.log( '\n'.join( [ "Object{}: {}".format( i, str(t) ) for i, t in enumerate(collisionTrees) ] ) )
-        LOGGER.log( '--------------------------------' )
 
     def InitCollisionTrees( self ):
         return [ QuadTree( self.polygons.get(i, True).polygon.GetBVH().GetDepth() ) for i in range( len(self.polygons) ) ]

@@ -1,3 +1,5 @@
+import sys
+
 LOG_BUFFER_LIMIT = 16384
 
 class Logger:
