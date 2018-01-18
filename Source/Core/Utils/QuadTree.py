@@ -17,7 +17,12 @@ class QuadTree:
         return self.nodes[ 4*level + ix ]
 
     def GetParent( self, ix ):
+        if ix < 1:
+            return None
         return self.nodes[ (ix-1)//4 ]
 
     def GetChild( self, ix, childIx ):
-        return self.nodes[ (4*ix) + childIx ]
+        nodeIx = ( 4 * ix ) + ( childIx + 1)
+        if nodeIx >= len(self):
+            return None
+        return self.nodes[ nodeIx ]

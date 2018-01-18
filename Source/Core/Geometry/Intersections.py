@@ -1,5 +1,4 @@
 from Core.BasicDefs import *
-##from Core.Collisions.CollisionDetector import _Projection
 
 def IntersectLines( dirA, ptA, dirB, ptB ):
     ptA2 = ptA + dirA
@@ -22,8 +21,8 @@ def IntersectLines( dirA, ptA, dirB, ptB ):
     return None
 
 def IntersectLineSegment( lineDir, linePt, segStart, segEnd ):
-    segEnd = np.array(segEnd) # TODO
-    segStart = np.array(segStart) # TODO
+    segEnd = np.array(segEnd)
+    segStart = np.array(segStart)
 
     segDir = segEnd - segStart
 

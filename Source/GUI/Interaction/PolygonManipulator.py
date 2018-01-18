@@ -19,7 +19,7 @@ class PolygonManipulator:
         self._drag_data["x"] = 0
         self._drag_data["y"] = 0
 
-    def OnDrag( self, x, y ):
+    def OnDrag( self, x, y, hideNonColliding ):
         deltaX = x - self._drag_data["x"]
         deltaY = y - self._drag_data["y"]
 
@@ -27,13 +27,13 @@ class PolygonManipulator:
         storageEntry.polygon.Move( deltaX, deltaY )
         storageEntry.polygonGfx.Move( self.canvas, deltaX, deltaY )
 
-        self.CheckCollisions()
+        self.CheckCollisions( hideNonColliding )
 
         self._drag_data["x"] = x
         self._drag_data["y"] = y
 
 
-    def CheckCollisions( self ):
+    def CheckCollisions( self, hideNonColliding ):
         collisionTrees = self.InitCollisionTrees()
 
         for obj1Ix in range( len(self.polygons) ):
@@ -45,7 +45,7 @@ class PolygonManipulator:
 
                 self.MergeTrees( collisionTrees, (obj1Ix, colTree1), (obj2Ix, colTree2) )
 
-        self.ColorCollisions( collisionTrees )
+        self.ColorCollisions( collisionTrees, hideNonColliding )
 
     def InitCollisionTrees( self ):
         return [ QuadTree( self.polygons.get(i, True).polygon.GetBVH().GetDepth() ) for i in range( len(self.polygons) ) ]
@@ -59,9 +59,8 @@ class PolygonManipulator:
         for i in range(len(tree2)):
             colTrees[tree2Ix][i] = colTrees[tree2Ix][i] or tree2[i]
 
-    def ColorCollisions( self, colTrees ):
+    def ColorCollisions( self, colTrees, hideNonColliding ):
         for objectI in range(len(self.polygons)):
             polyGfx = self.polygons.get(objectI, True).polygonGfx
-            polyGfx.SetBvhColors( colTrees[objectI], self.canvas )
+            polyGfx.SetBvhColors( colTrees[objectI], self.canvas, hideNonColliding )
 
-            

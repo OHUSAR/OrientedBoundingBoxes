@@ -68,25 +68,28 @@ class Application(Frame):
         self.polygons = PolygonStorage()
         self.composer = PolygonComposer( self.canvas )
         self.manipulator = PolygonManipulator( self.polygons, self.canvas )
+        self.hideState = False
         
-        self.oobbHidden = False
         self.convexHullHidden = False # TODO (mainly debug purposes)
 
     def clear(self):
         self.canvas.delete("all")
+
+        hide = self.hideState
         self.initialize()
+        self.hideState = hide
+        
 
         self.UnbindMoveEvents()
         self.BindDrawEvents()
 
     def swapOobbState(self):
-        self.oobbHidden = not self.oobbHidden
-        if self.oobbHidden:
-            self.canvas.itemconfigure("oobb", state='hidden')
+        self.hideState = not self.hideState
+        if self.hideState:
             self.oobbStateButton["text"] = Strings.BTN_OOBB_SHOW
         else:
-            self.canvas.itemconfigure("oobb", state='normal')
             self.oobbStateButton["text"] = Strings.BTN_OOBB_HIDE
+        self.manipulator.CheckCollisions( self.hideState )
 
 
     def onDrawClick( self, event ):
@@ -109,6 +112,7 @@ class Application(Frame):
         polygon = SimulationPolygon( [vector(v) for v in vertices] )
         polygonGfx = PolygonGfx( polygon, self.canvas )
         self.polygons.add( polygon, polygonGfx, polygonGfx.polygonId )
+        self.manipulator.CheckCollisions( self.hideState )
 
     def on_token_press(self, event):
         self.manipulator.OnDragStart( event.x, event.y )
@@ -117,7 +121,7 @@ class Application(Frame):
         self.manipulator.OnDragEnd()
 
     def on_token_motion(self, event):
-        self.manipulator.OnDrag( event.x, event.y )
+        self.manipulator.OnDrag( event.x, event.y, self.hideState )
 
 if __name__ == '__main__':
     root = Tk()

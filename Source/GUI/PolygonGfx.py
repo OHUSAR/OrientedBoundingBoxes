@@ -51,12 +51,23 @@ class PolygonGfx:
         for bvhId in self.bvhIds:
             canvas.tag_raise( bvhId )
         
-
-    def SetBvhColors( self, collisionTree, canvas ):
+    def SetBvhColors( self, collisionTree, canvas, hideNonColliding ):
         for i in range(len(self.bvhIds)):
+            color = Colors.OOBB
+            lineWidth = 2
+            gfxState = "hidden" if hideNonColliding else "normal"
+            
             if collisionTree[i]:
-                canvas.itemconfig( self.bvhIds[i], fill = Colors.OOBB_COLLISION, width = 4 )
-            else:
-                canvas.itemconfig( self.bvhIds[i], fill = Colors.OOBB, width = 2 )
+                lineWidth = 4
+                color = Colors.OOBB_COLLISION
+                gfxState = "normal"
+
+            for childI in range(4):
+                if collisionTree.GetChild( i, childI ):
+                    lineWidth = 2
+                    color = Colors.OOBB_COLLISION_PARENT
+                    break
+                    
+            canvas.itemconfig( self.bvhIds[i], fill = color, width = lineWidth, state = gfxState )
         
         

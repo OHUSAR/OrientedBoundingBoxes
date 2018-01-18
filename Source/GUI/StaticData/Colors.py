@@ -4,5 +4,6 @@ class Colors:
 
     OOBB = 'LightYellow4'
     OOBB_COLLISION = 'red'
+    OOBB_COLLISION_PARENT = 'green'
 
     CONVEX_HULL = 'blue'
