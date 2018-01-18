@@ -1,5 +1,6 @@
 from collections import deque
 
+from Core.BasicDefs import vector
 
 def _IsLeftTurn( a, b, c ):
     return ( ( ( b[0] - a[0] ) * ( c[1] - a[1] ) ) -
@@ -34,4 +35,4 @@ def GetConvexHull( vertices ):
                 convexHull.pop()
             convexHull.append( currentVertex )
             
-    return list( convexHull )[:-1]
+    return [ vector(v) for v  in list( convexHull )[:-1] ]

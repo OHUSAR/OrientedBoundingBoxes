@@ -1,5 +1,5 @@
 from Core.Geometry.Polygon import Polygon
-from Core.BoundingVolumes.OOBBHierarchy import GetOOBBHierarchy
+import Core.BoundingVolumes.BVHFactory as BVHFactory
 
 class BoundingVolumeHierarchy:
 
@@ -8,14 +8,15 @@ class BoundingVolumeHierarchy:
         self.depth = depth
 
     def InitializeFrom( self, vertices, depth, subType ):
-        volumes = []
-        
+        volumeGenerator = None
         if subType == 'oobb':
-            volumes = GetOOBBHierarchy( vertices, depth )
+            volumeGenerator = BVHFactory.GetOrientedBoundingBox
+        elif subType == 'convHull':
+            volumeGenerator = BVHFactory.GetConvexHull
         else:
             raise ValueError( 'Unsuportted bvh sub-type: {}'.format( subType ) )
 
-        return volumes
+        return BVHFactory.GetBoundingVolumeHierarchy( vertices, depth, volumeGenerator )
 
     def __getitem__( self, ix ):
         return self.boundingVolumes[ix]
@@ -28,5 +29,6 @@ class BoundingVolumeHierarchy:
         
     def Move( self, dx, dy ):
         for bv in self.boundingVolumes:
-            bv.Move( dx, dy )
+            if bv is not None:
+                bv.Move( dx, dy )
             

@@ -42,10 +42,17 @@ vertices = [
     ]
 
 so = SimulationPolygon( vertices )
+oa = [[956, 499], [767, 499],[861, 229], [917, 201]] # [ [1,0], [5,1],[5,4],[3,5],[0,3]]
+ob = [[1010,  394],[973, 452], [765, 452], [771, 145], [981, 199]] #[ [6,3], [7,1],[7,4] ]
 
-ch = so.convexHull.GetVertices()
-with open( '../Output/ch{}.txt'.format(9), 'w', encoding='utf-8' ) as stream:
-        printVertices( ch, stream )
+oa = [ np.array( v ) for v in oa]
+ob = [ np.array( v ) for v in ob]
+
+colBody1 = CollisionObject( oa, GetEdgeNormals( GetOrientedEdges( oa ) ) )
+colBody2 = CollisionObject( ob, GetEdgeNormals( GetOrientedEdges( ob ) ) )
+
+print( ObjectsCollide( colBody1, colBody2 ) )
+
 
 ######## OLD S*** (STUFF)
 RUN_LEGACY = 0

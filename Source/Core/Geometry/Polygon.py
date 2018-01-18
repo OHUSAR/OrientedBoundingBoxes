@@ -2,11 +2,9 @@ from Core.Geometry.Utils import GetOrientedEdges, GetEdgeNormals
 
 class Polygon:
 
-    def __init__(self, vertices, ch = None):
+    def __init__(self, vertices):
         self.vertices = vertices
         self.edgeNormals = GetEdgeNormals( GetOrientedEdges( vertices ) )
-        
-        self.chVertices = ch
 
     def GetVertices( self ):
         return self.vertices
@@ -21,6 +19,5 @@ class Polygon:
         for vertex in self.vertices:
             vertex[0] += dx
             vertex[1] += dy
-
 
     

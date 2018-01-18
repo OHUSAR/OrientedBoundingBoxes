@@ -9,8 +9,13 @@ class SimulationPolygon:
     def __init__( self, vertices, bvhDepth = 1, bvhType = 'oobb' ):
         self.originalPolygon = Polygon( vertices )
         self.convexHull = Polygon( GetConvexHull( vertices ) )
-        self.bvh = BoundingVolumeHierarchy( vertices, bvhDepth, bvhType )
+        self.bvh = None
+        self.InvalidateBVH( bvhDepth, bvhType )
 
+    def InvalidateBVH( self, bvhDepth, bvhType ):
+        self.bvh = BoundingVolumeHierarchy( self.originalPolygon.GetVertices(),
+                                            bvhDepth, bvhType )
+        
     def Move( self, dx, dy ):
         self.originalPolygon.Move( dx, dy )
         self.convexHull.Move( dx, dy )

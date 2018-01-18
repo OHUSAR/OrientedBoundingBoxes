@@ -1,6 +1,5 @@
 from Core.BasicDefs import *
 
-
 class CollisionObject:
     def __init__( self, vertices, edgeNormals ):
         self.vertices = vertices
