@@ -6,6 +6,8 @@ class Axis:
     def __init__( self, dirVector, point ):
         self.dir = dirVector
         self.point = point
+    def __repr__(self):
+        return "Dir: {} | Point: {}".format( self.dir, self.point )
 
 def _GetSide( vertex, axis ):
     pt = axis.point

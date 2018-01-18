@@ -1,6 +1,7 @@
 from Core.BasicDefs import *
 
 from Core.Utils.QuadTree import QuadTree
+from Core.Utils.Logger import LOGGER
 from Core.Geometry.Polygon import Polygon
 from Core.BoundingVolumes.OrientedBoundingBox2 import GetOrientedBBox
 from Core.ConvexHull.ConvexHull import GetConvexHull
@@ -20,7 +21,15 @@ def _SliceObject( boudingVolume, originalVertices ):
         slice_Ax1_1, slice_Ax1_2 = SliceObject( originalVertices, splitAxis1 )
         slice0, slice1 = SliceObject( slice_Ax1_1, splitAxis2 )
         slice2, slice3 = SliceObject( slice_Ax1_2, splitAxis2 )
-        return ( slice0, slice1, slice2, slice3 )
+
+        slices = ( slice0, slice1, slice2, slice3 )
+        LOGGER.log( '--------- Slicing report ----------' )
+        LOGGER.log( "Original Object: {}".format( originalVertices ) )
+        LOGGER.log( "Axis1: {}".format( splitAxis1 ) )
+        LOGGER.log( "Axis2: {}".format( splitAxis2 ) )
+        LOGGER.log( '\n'.join( ["Slice{}: {}".format(i, slc) for i,slc in enumerate(slices) ] ) )
+
+        return slices
 
 
 def GetBoundingVolumeHierarchy( vertices, depth, bvFnc ):

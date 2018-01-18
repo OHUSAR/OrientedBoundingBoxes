@@ -1,6 +1,6 @@
 import sys
 
-LOG_BUFFER_LIMIT = 16384
+LOG_BUFFER_LIMIT = 65535
 
 class Logger:
     def __init__( self, stream = sys.stdout, bufferLimit = LOG_BUFFER_LIMIT ):
@@ -8,7 +8,7 @@ class Logger:
         self._DEBUG = True
 
         self.buffer = []
-        self.bufferLimit = bufferLimit # 16k buffer should be enough for like forever :D
+        self.bufferLimit = bufferLimit
         
     def flush(self):
         if self._DEBUG:
