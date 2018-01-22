@@ -1,6 +1,6 @@
 from Core.Utils.QuadTree import QuadTree
 from Core.Geometry.Polygon import Polygon
-from Core.ConvexHull.ConvexHull import GetConvexHull
+from Core.ConvexHull.Melkman import GetConvexHull
 from Core.BoundingVolumes.BoundingVolumeHierarchy import BoundingVolumeHierarchy
 from Core.Collisions.CollisionDetector import CollisionObject, ObjectsCollide
 

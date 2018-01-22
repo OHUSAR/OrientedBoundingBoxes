@@ -3,6 +3,7 @@ from random import randrange
 from Core.Utils.QuadTree import QuadTree
 
 from GUI.StaticData.Colors import Colors
+from GUI.Canvas.FancyPolygon import FancyPolygon
 
 class PolygonGfx:
     def __init__( self, simPolygon, canvas ):
@@ -10,17 +11,22 @@ class PolygonGfx:
         self.bvhIds = None
 
         self.polyColor = self.GetRandomColor()
+        
+        self.fancy = FancyPolygon( canvas, self.polyColor )
+        
         self.Invalidate( simPolygon, canvas )
 
     def Invalidate( self, simPolygon, canvas, deleteCurrent = False ):
-        if deleteCurrent:
-            canvas.delete( *[self.polygonId] + self.bvhIds.nodes )
-        
         polyVertices = [ tuple(v) for v in simPolygon.GetPolygon().GetVertices()]
-
-        self.polygonId = canvas.create_polygon( polyVertices, tags="token",
-                                                fill = self.polyColor,
-                                                outline = self.polyColor )
+        self.fancy.Invalidate( polyVertices, deleteCurrent )
+        
+        if deleteCurrent:
+            canvas.delete( *self.bvhIds.nodes )
+        
+        self.polygonId = self.fancy.GetCanvasId()
+##        self.polygonId = canvas.create_polygon( polyVertices, tags="token",
+##                                                fill = self.polyColor,
+##                                                outline = self.polyColor )
 
         bvh = simPolygon.GetBVH()
         self.bvhIds = QuadTree( bvh.GetDepth(), -1 )
@@ -36,12 +42,11 @@ class PolygonGfx:
         return Colors.objectPalette[ randrange(len(Colors.objectPalette)) ]
 
     def Move( self, canvas, dx, dy ):
-        canvas.move( self.polygonId, dx, dy )
+        self.fancy.Move( dx, dy )
         for bvhId in self.bvhIds:
             if bvhId > 0:
                 canvas.move( bvhId, dx, dy )
 
-        canvas.tag_raise( self.polygonId )
         for bvhId in self.bvhIds:
             if bvhId > 0:
                 canvas.tag_raise( bvhId )

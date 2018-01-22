@@ -14,16 +14,18 @@ from GUI.PolygonGfx import PolygonGfx
 from GUI.polygon_storage import PolygonStorage
 from GUI.Interaction.PolygonManipulator import PolygonManipulator
 
+from Debug.BvhDebug import BvhDebug
+
 
 class Canvas(TkCanvas):
-    def __init__(self, master=None, cnf={}, **kw):
-        super().__init__(master, cnf, **kw, width=1200, height=800, bg='white')
+    def __init__(self, master=None, cnf={}, width=1200, height=800, **kw):
+        super().__init__(master, cnf, width=width, height=height, **kw, bg='white')
         self.pack(fill='both', expand=True, side='left')
 
 
 class Application(Frame):
 
-    def __init__(self, master=None, DEBUG = False, **kwargs):
+    def __init__(self, master=None, DEBUG = False, width=1200, height=800, **kwargs):
         super().__init__(master, **kwargs)
 
         self._DEBUG = DEBUG
@@ -32,6 +34,9 @@ class Application(Frame):
         self.MAX_BVH_DEPTH = 2
         self.BVH_DEPTH_DEFAULT = 1
 
+        self.width = width
+        self.height = height
+
         self.initializeGui()
         self.initialize()
 
@@ -39,7 +44,7 @@ class Application(Frame):
         self.pack()
 
     def initializeGui(self):
-        self.canvas = Canvas(master=self)
+        self.canvas = Canvas(master=self, width = self.width, height = self.height)
 
         # Toolbar
         self.frame = Frame(master=self, height=800, width=20)
@@ -91,11 +96,14 @@ class Application(Frame):
 
             self.bvhPrintBtn = Button( master = self.debugFrame, text ="Print BVH", command = self.DEBUG_BVH_PRINT )
             self.logFlushBtn = Button( master = self.debugFrame, text = "Flush Log", command = LOGGER.flush )
+
+            self.bvhDrawBtn = Button( master = self.debugFrame, text = 'Draw Object BVH', command = self.DEBUG_BVH_DRAW, state = DISABLED )
     
             self.debugFrame.pack( side = 'bottom' )
             self.printBtn.pack( side = 'top' )
             self.bvhPrintBtn.pack( side = 'top' )
             self.logFlushBtn.pack( side = 'top' )
+            self.bvhDrawBtn.pack( side = 'top' )
 
     def initialize(self):
         self.polygons = PolygonStorage()
@@ -122,10 +130,16 @@ class Application(Frame):
         self.canvas.tag_bind("token", "<ButtonRelease-1>", self.on_token_release)
         self.canvas.tag_bind("token", "<B1-Motion>", self.on_token_motion)
 
+        if self._DEBUG:
+            self.bvhDrawBtn['state'] = NORMAL
+
     def UnbindMoveEvents(self):
         self.canvas.tag_unbind("token", "<ButtonPress-1>")
         self.canvas.tag_unbind("token", "<ButtonRelease-1>")
         self.canvas.tag_unbind("token", "<B1-Motion>")
+
+        if self._DEBUG:
+            self.bvhDrawBtn['state'] = DISABLED
 
     def clear(self):
         self.canvas.delete("all")
@@ -210,6 +224,25 @@ class Application(Frame):
         for objI in range( len(self.polygons) ):
             print( "Object {}".format( objI ) )
             print( [ False if n is None else True for n in self.polygons.get(objI, True).polygon.bvh ] )
+
+    def DEBUG_BVH_DRAW( self ):
+        print( "draw called" )
+        self.canvas.tag_unbind( "token", "<ButtonPress-1>" )
+        self.canvas.tag_bind( "token", "<ButtonPress-1>", self.DEBUG_BVH_DRAW_ONCLICK )
+
+    def DEBUG_BVH_DRAW_ONCLICK( self, event ):
+        polygonId = self.canvas.find_closest( event.x, event.y )[0]
+        polygon = self.polygons.get( polygonId )
+
+        vertices = polygon.polygon.GetPolygon().GetVertices()
+        depth = polygon.polygon.GetBVH().GetDepth()
+        subType = self.boundVolumeTypes[ self.boundVolumeChoice.get() ]
+
+        BvhDebug( vertices, depth, subType )
+        
+        self.canvas.tag_unbind( "token", "<ButtonPress-1>" )
+        self.canvas.tag_bind("token", "<ButtonPress-1>", self.on_token_press)
+        
 
 if __name__ == '__main__':
     root = Tk()
