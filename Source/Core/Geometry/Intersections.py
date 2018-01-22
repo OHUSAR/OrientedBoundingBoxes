@@ -55,7 +55,7 @@ def IntersectSegments( segment1, segment2 ):
              ( intersectPt[1] >= min( seg1Start[1], seg1End[1] ) ) and
              ( intersectPt[1] <= max( seg1Start[1], seg1End[1] ) ) and
              ( intersectPt[1] >= min( seg2Start[1], seg2End[1] ) ) and
-             ( intersectPt[1] <= max( seg1Start[1], seg1End[1] ) ) ):
+             ( intersectPt[1] <= max( seg2Start[1], seg2End[1] ) ) ):
             return True
         
     return False
