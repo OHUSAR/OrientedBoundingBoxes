@@ -32,6 +32,11 @@ class JarvisCHTest( unittest.TestCase ):
         chExpected = [vector([-84.09089661, -17.72727394]), vector([-64.09089661, -47.72727203]), vector([ 15.90910339, -67.72727203]), vector([ 55.90910339, -67.72727203]), vector([105.90910339,  12.27272606]), vector([65.90910339, 52.27272797]), vector([ 5.90910339, 72.27272797]), vector([-44.09089661,  62.27272797])]
         self.compareHulls( verts, chExpected )
 
+    def test_self_intersecting( self ):
+        verts = [ vector([20,-5]), vector([14.15, -6.96]), vector([13.55, -1.64]), vector([19.76, -9.01]), vector([17.83, -1.1]), vector([9.5, -6.23]), vector([16.56, -10.46]) ]
+        chExpected = [ vector([9.5, -6.23]), vector([16.56, -10.46]), vector([19.76, -9.01]), vector([20,-5]), vector([17.83, -1.1]), vector([13.55, -1.64]) ]
+        self.compareHulls( verts, chExpected )
+                      
     def test_error_empty( self ):
         verts = []
         self.assertRaises( ValueError, GetConvexHull, verts )

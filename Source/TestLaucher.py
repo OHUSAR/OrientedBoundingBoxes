@@ -6,6 +6,8 @@ from Test.IntersectionTest import *
 from Test.SliceTest import *
 from Test.MelkmanConvexHullTest import *
 from Test.JarvisMarchConvexHullTest import *
+from Test.OOBBTest import *
+from Test.SATTest import *
 
 # Note:
 #   The order in which the various tests will be run is determined
